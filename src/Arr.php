@@ -2,6 +2,8 @@
 
 namespace Ecpanda\Util;
 
+use ArrayAccess;
+
 class Arr
 {
     /**
@@ -167,7 +169,7 @@ class Arr
         list($value, $key) = static::explodePluckParameters($value, $key);
 
         foreach ($array as $item) {
-            $itemValue = data_get($item, $value);
+            $itemValue = static::get($item, $value);
 
             // If the key is "null", we will just append the value to the array and keep
             // looping. Otherwise we will key the array using the value of the key we
@@ -175,13 +177,45 @@ class Arr
             if (is_null($key)) {
                 $results[] = $itemValue;
             } else {
-                $itemKey = data_get($item, $key);
+                $itemKey = static::get($item, $key);
 
                 $results[$itemKey] = $itemValue;
             }
         }
 
         return $results;
+    }
+
+    /**
+     * Return the first element in an array passing a given truth test.
+     *
+     * @param  array  $array
+     * @param  callable  $callback
+     * @param  mixed  $default
+     * @return mixed
+     */
+    public static function first($array, callable $callback, $default = null)
+    {
+        foreach ($array as $key => $value) {
+            if (call_user_func($callback, $key, $value)) {
+                return $value;
+            }
+        }
+
+        return static::value($default);
+    }
+
+    /**
+     * Return the last element in an array passing a given truth test.
+     *
+     * @param  array  $array
+     * @param  callable  $callback
+     * @param  mixed  $default
+     * @return mixed
+     */
+    public static function last($array, callable $callback, $default = null)
+    {
+        return static::first(array_reverse($array), $callback, $default);
     }
 
     /**
@@ -314,6 +348,56 @@ class Arr
     }
 
     /**
+     * Divide an array into two arrays. One with keys and the other with values.
+     *
+     * @param  array  $array
+     * @return array
+     */
+    public static function divide($array)
+    {
+        return [array_keys($array), array_values($array)];
+    }
+
+    /**
+     * Flatten a multi-dimensional associative array with dots.
+     *
+     * @param  array   $array
+     * @param  string  $prepend
+     * @return array
+     */
+    public static function dot($array, $prepend = '')
+    {
+        $results = [];
+
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                $results = array_merge($results, static::dot($value, $prepend.$key.'.'));
+            } else {
+                $results[$prepend.$key] = $value;
+            }
+        }
+
+        return $results;
+    }
+
+    /**
+     * Flatten a multi-dimensional array into a single level.
+     *
+     * @param  array  $array
+     * @return array
+     */
+    public static function flatten($array)
+    {
+        $return = [];
+
+        array_walk_recursive($array, function ($x) use (&$return) {
+            $return[] = $x;
+        });
+
+        return $return;
+    }
+
+    /**
      * Get all of the given array except for a specified array of items.
      *
      * @param  array  $array
@@ -363,7 +447,7 @@ class Arr
             $array = &$original;
         }
     }
-    
+
     /**
      * Return the default value of the given value.
      *

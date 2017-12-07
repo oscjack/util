@@ -1,8 +1,8 @@
 <?php
 
-namespace Ecpanda\Collection;
+namespace Ecpanda\Util;
 
-interface Arrayable
+interface ArrayableInterface
 {
     /**
      * Get the instance as an array.

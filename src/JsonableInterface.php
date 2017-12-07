@@ -1,8 +1,8 @@
 <?php
 
-namespace Ecpanda\Collection;
+namespace Ecpanda\Util;
 
-interface Jsonable
+interface JsonableInterface
 {
     /**
      * Convert the object to its JSON representation.

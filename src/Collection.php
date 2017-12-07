@@ -8,8 +8,8 @@ use ArrayIterator;
 use JsonSerializable;
 use IteratorAggregate;
 use InvalidArgumentException;
-use ArrayableInterface as Arrayable;
-use JsonableInterface as Jsonable;
+use Ecpanda\Util\ArrayableInterface as Arrayable;
+use Ecpanda\Util\JsonableInterface as Jsonable;
 
 class Collection implements 
     ArrayAccess, Arrayable, Countable, 
@@ -107,7 +107,7 @@ class Collection implements
     {
         if (func_num_args() == 2) {
             return $this->contains(function ($k, $item) use ($key, $value) {
-                return Arr::getItemByDot($item, $key) == $value;
+                return Arr::get($item, $key) == $value;
             });
         }
 
@@ -263,7 +263,7 @@ class Collection implements
     public function first(callable $callback = null, $default = null)
     {
         if (is_null($callback)) {
-            return count($this->items) > 0 ? reset($this->items) : value($default);
+            return count($this->items) > 0 ? reset($this->items) : Arr::value($default);
         }
 
         return Arr::first($this->items, $callback, $default);
@@ -437,7 +437,7 @@ class Collection implements
     public function last(callable $callback = null, $default = null)
     {
         if (is_null($callback)) {
-            return count($this->items) > 0 ? end($this->items) : value($default);
+            return count($this->items) > 0 ? end($this->items) : Arr::value($default);
         }
 
         return Arr::last($this->items, $callback, $default);
