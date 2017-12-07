@@ -1,4 +1,4 @@
 # Ecpanda Util
-A range of utility classes that are used in daily development. Most of methods are pulled from laravel.
+A range of utility classes for daily development. Most of methods are pulled from laravel.
 
 
