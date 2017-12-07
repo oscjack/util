@@ -1,7 +1,7 @@
 {
     "name": "ecpanda/util",
     "type": "library",
-    "description": "This library provides a range of utility classes that are used in daily development",
+    "description": "A range of utility classes that are used in daily development. Most of methods are pulled from laravel.",
     "keywords": ["utility", "Standalone Laravel Collection", "Standalone Laravel Arr"],
     "homepage": "https://github.com/ecpanda/util",
     "license": "MIT",
