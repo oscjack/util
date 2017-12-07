@@ -1,0 +1,23 @@
+{
+    "name": "ecpanda/util",
+    "type": "library",
+    "description": "This library provides a range of utility classes that are used in daily development",
+    "keywords": ["utility"],
+    "homepage": "https://github.com/ecpanda/util",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jack yin",
+            "email": "waring3yin@icloud.com",
+            "homepage": "https://github.com/ecpanda/util"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ecpanda\\Util\\": "./src"
+        }
+    }
+}
