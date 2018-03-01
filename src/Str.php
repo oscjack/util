@@ -439,10 +439,11 @@ class Str
      
         foreach($data as $k => $v)
             $as[$k] = strlen($v) > 1 ? $ansi_width : 1;
-     
+
         $_as_rev = array_reverse($as,true);
         $_as = $offset < 0 ? $_as_rev : $as; 
         $n = 0; $_offset = abs($offset);
+
         foreach($_as as $k => $v) {
             if ($n >= $_offset) {
                 $_start = $k;
@@ -450,10 +451,13 @@ class Str
             }
             $n += $v;
         }
+
         //echo $_start,',';
         $_as = $length <= 0 ? $_as_rev : $as;
+
         end($_as); list($_end) = each($_as); reset($_as);//给$_end 设定默认值，一直到结尾
         $n = 0; $_length = abs($length);
+
         foreach($_as as $k => $v) {
             if ($k >= $_start) {
                 if ($n >= $_length) {
@@ -466,8 +470,13 @@ class Str
         //echo $_end,'|||||';
         if ($_end <= $_start)
             return '';
+
+        $limit = $_end - $_start;
+        if ($_start > 0) {
+            $limit++;
+        }
      
-        $_data = array_slice($data, $_start, $_end - $_start);
+        $_data = array_slice($data, $_start, $limit);
      
         return implode('',$_data);
     }
